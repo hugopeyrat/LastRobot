@@ -17,7 +17,7 @@ public class Victory : MonoBehaviour {
 
     void OnTriggerEnter(Collider arg)
     {
-        if(arg == Character.GetComponent<Collider>() && (GameManager.s_Singleton.ReturnTimeFloat() > 0))
+        if(arg.tag == Character.GetComponent<Collider>().tag && (GameManager.s_Singleton.ReturnTimeFloat() > 0f))
         {
             SceneManager.LoadScene("Ecran_Win");
         }

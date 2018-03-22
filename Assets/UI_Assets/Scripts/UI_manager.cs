@@ -8,8 +8,9 @@ using UnityEngine.SceneManagement;
 public class UI_manager : MonoBehaviour
 {
 
-    public string PlayScene;
 
+    public GameObject UI_Jeu;
+    public UnityStandardAssets.Characters.FirstPerson.FirstPersonController controller;
     void Start()
     {
 
@@ -23,7 +24,7 @@ public class UI_manager : MonoBehaviour
 
     public void OnClickplay()
     {
-        SceneManager.LoadScene(PlayScene);
+        SceneManager.LoadScene("Play_Game");
     }
     public void OnClickExit()
     {
@@ -31,12 +32,15 @@ public class UI_manager : MonoBehaviour
     }
     public void OnClickUnPaused()
     {
-        GameObject.Find("MainMenu").SetActive(false);
+        Debug.Log("You have clicked the button!");
+        controller.UnPause();
+        GameManager.s_Singleton.PauseTime(false);
+        Cursor.visible = false;
+        this.gameObject.SetActive(false);
+        UI_Jeu.SetActive(true);
+        Debug.Log(GameManager.s_Singleton.ReturnTime());
     }
-    public void OnClickPaused()
-    {
-        GameObject.Find("MainMenu").SetActive(true);
-    }
+
 
 }
 

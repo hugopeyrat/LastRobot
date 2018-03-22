@@ -20,7 +20,7 @@ public class UI_manager2 : MonoBehaviour
     void Start()
     {
 
-        resume.onClick.AddListener(Resume);
+        
         restart.onClick.AddListener(RestartGame);
         quit.onClick.AddListener(QuitGame);
     }
