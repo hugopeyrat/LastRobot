@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour {
     private int objetsRamasses = 0;
     private bool DoorOpen = false;
 
-    private float timer = 600.0f;
+    private float timer = 240.0f;
     private bool onPause = false;
 
     public static GameManager s_Singleton;
@@ -63,14 +63,14 @@ public class GameManager : MonoBehaviour {
 
     public bool ReturnDoor()
     {
-        return true;
+        if(DoorOpen == true)
+        { return true; }
+        else
+        { return false;}
     }
 
     public string ReturnTime()
     {
-        var temp = timer / 60;
-        var temp2 = Mathf.Floor(temp);
-        var temp3 = ((temp - temp2)/100)*60;
         var someString = string.Format("{0:0}:{1:00}", Mathf.Floor(timer / 60), timer % 60);
         //return temp2.ToString() + ".";
         return someString;

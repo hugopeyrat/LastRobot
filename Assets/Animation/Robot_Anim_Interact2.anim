@@ -144,7 +144,14 @@ AnimationClip:
   m_GenerateMotionCurves: 0
   m_Events:
   - time: 0
-    functionName: DestructTarget
+    functionName: DestructTargetBr
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.85
+    functionName: StopAnim
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

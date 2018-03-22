@@ -165,10 +165,20 @@ namespace UnityStandardAssets.Characters.FirstPerson
             
         }
 
-        public void DestructTarget()
+        public void DestructTargetHit()
         {
+            if (ADetruire.tag == "Destructible")
+            {
+                Destroy(ADetruire);
+            }
+        }
 
-            Destroy(ADetruire);
+        public void DestructTargetBr()
+        {
+            if (ADetruire.tag == "Collectible")
+            {
+                Destroy(ADetruire);
+            }
             if (ScreenBr.activeSelf == true)
             {
                 ScreenBr.SetActive(false);
@@ -217,6 +227,16 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private void BrokenScreen()
         {
             ScreenBr.SetActive(true);
+        }
+
+        public void StopAnim()
+        {
+            GetComponent<Animator>().enabled = false;
+        }
+
+        public void UnPause()
+        {
+            is_paused = false;
         }
 
 

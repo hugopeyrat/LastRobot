@@ -10,6 +10,7 @@ public class ReverseDetect : MonoBehaviour {
     private bool buttonCheck = false;
     public bool StartDoor_isOpen = false;
     private bool Is_Active = false;
+    private int NoColision = 0;
     private Vector3 actualPlace;
     private Quaternion actualRot;
     public GameObject ObjetDetruit;
@@ -36,6 +37,7 @@ public class ReverseDetect : MonoBehaviour {
 
             Debug.Log("interact ok");
             ObjectCount++;
+            MainObj.GetComponent<Animator>().enabled = true;
             MainObj.GetComponent<Animator>().Play("Robot_Anim_Interact1");
             if(ObjectCount == 1)
             {
@@ -77,14 +79,20 @@ public class ReverseDetect : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.F))
         {
-            MainObj.GetComponent<Animator>().Play("Robot_Animation1");
+            MainObj.GetComponent<Animator>().enabled = true;
+            if(NoColision == 0 && TriggerPorteFin.GetComponent<DoorManager>().CheckIfTrigger() == false)
+            {
+                MainObj.GetComponent<Animator>().Play("Robot_Animation1");
+            }
+            
             if (isTriggered == true && this.tag == "Destructible")
             {
                 /*actualPlace = this.transform.position;
                 actualRot = this.transform.rotation;
 
                 Instantiate(ObjetDetruit, actualPlace, actualRot);*/
-                Destroy(this);
+                 MainObj.GetComponent<Animator>().Play("Robot_Animation1");
+
                 SetHit(false);
             }
         }
@@ -97,25 +105,32 @@ public class ReverseDetect : MonoBehaviour {
 
     void OnTriggerEnter(Collider collisionInfo)
     {
+        NoColision++;
 
 
+        if (collisionInfo.GetComponent<Collider>().tag == "Detecteur" && (this.tag == "Collectible" || this.tag == "SecBout"))
+        {
+            SetInteract(true);
+        }
 
-            if (collisionInfo.GetComponent<Collider>().tag == "Detecteur" && (this.tag == "Collectible" || this.tag == "SecBout"))
-            {
-                SetInteract(true);
-            }
-
-            if (collisionInfo.GetComponent<Collider>().tag == "Detecteur" && this.tag == "Destructible")
-            {
+        if (collisionInfo.GetComponent<Collider>().tag == "Detecteur" && ( this.tag == "Destructible"))
+        {
             Debug.Log("Détecté");
             SetHit(true);
-            }
+        }
 
-        
+        if (collisionInfo.GetComponent<Collider>().tag == "Detecteur" && this.tag == "Destructible")
+        {
+            Debug.Log("Détecté");
+            SetHit(true);
+        }
+
+
         if (collisionInfo.GetComponent<Collider>().tag == "Detecteur" && this.tag == "Trigger")
         {
             Debug.Log("Triggered");
             Is_Active = true;
+            MainObj.GetComponent<Animator>().enabled = true;
             MainObj.GetComponent<Animator>().Play("Anim_Regard_Haut");
             
             Destroy(this);
@@ -125,7 +140,7 @@ public class ReverseDetect : MonoBehaviour {
 
     void OnTriggerExit(Collider collisionInfo)
     {
-
+        NoColision--;
         if (collisionInfo.GetComponent<Collider>().tag == "Detecteur" && this.tag == "Collectible")
         {
             SetInteract(false);
@@ -135,6 +150,7 @@ public class ReverseDetect : MonoBehaviour {
         {
             SetHit(false);
         }
+
     }
 
 
@@ -153,11 +169,17 @@ public class ReverseDetect : MonoBehaviour {
 
     public void Destruction()
     {
-        Destroy(this.gameObject);
+        if(this.gameObject.tag == "Destructible")
+        {
+            Destroy(this.gameObject);
+        }
+        
     }
 
     public void SetActiveDetect()
     {
         Is_Active = true;
     }
+    
+
 }

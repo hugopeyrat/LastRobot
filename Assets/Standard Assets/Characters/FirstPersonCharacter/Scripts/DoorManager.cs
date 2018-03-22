@@ -1,28 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DoorManager : MonoBehaviour {
     private bool is_triggered;
-    private int incTrig = 0;
     public GameObject PorteFermee;
     public GameObject PorteUnCoup;
     public GameObject PorteDeuxCoup;
     public GameObject PorteCassee;
     public GameObject Character;
-    private Vector3 actualPlace;
-    private Quaternion actualRot;
+
     private int indent = 0;
 
     void Start () {
-        actualPlace = this.transform.position;
-        actualRot = this.transform.rotation;
+
         
     }
 
     void Update()
     {
-        if (GameManager.s_Singleton.ReturnDoor() == true)
+        if(GameManager.s_Singleton.ReturnDoor() == true)
         {
             SwitchPorte("Open");
         }
@@ -38,10 +36,12 @@ public class DoorManager : MonoBehaviour {
                 indent++;
                 if (indent == 1 || indent == 2)
                 {
+                    Character.GetComponent<Animator>().enabled = true;
                     Character.GetComponent<Animator>().Play("Robot_Porte1");
                 }
                 else if (indent == 3)
                 {
+                    Character.GetComponent<Animator>().enabled = true;
                     Character.GetComponent<Animator>().Play("Robot_Porte1");
 
                 }
@@ -64,6 +64,12 @@ public class DoorManager : MonoBehaviour {
             if(collisionInfo.GetComponent<Collider>().tag == "Detecteur")
             {
                 is_triggered = true;
+            if (GameManager.s_Singleton.ReturnObjet() >= 5)
+            {
+                GameObject.Find("UI_IG/UI_Hit").GetComponent<Image>().enabled = true;
+            }
+                
+                
             }
 
         }
@@ -73,7 +79,11 @@ public class DoorManager : MonoBehaviour {
             if (collisionInfo.GetComponent<Collider>().tag == "Detecteur")
             {
                 is_triggered = false;
+            if (GameManager.s_Singleton.ReturnObjet() >= 5)
+            {
+                GameObject.Find("UI_IG/UI_Hit").GetComponent<Image>().enabled = false;
             }
+        }
 
         }
 
@@ -126,6 +136,12 @@ public class DoorManager : MonoBehaviour {
     {
         indent = arg;
     }
+
+    public bool CheckIfTrigger()
+    {
+        return is_triggered;
+    }
+
 
 
 }

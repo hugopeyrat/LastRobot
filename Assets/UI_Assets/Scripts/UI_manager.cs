@@ -36,7 +36,6 @@ public class UI_manager : MonoBehaviour
     public void OnClickPaused()
     {
         GameObject.Find("MainMenu").SetActive(true);
-
     }
 
 }
